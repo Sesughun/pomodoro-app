@@ -2,60 +2,51 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import Play from "./Play";
 import Pause from "./Pause";
-import { useContext, useState, useEffect, useRef } from "react";
+import { useContext, useState, useEffect } from "react";
 import TimerContext from "./TimerContext";
-const red = "#f54e4e";
 
 function Timer() {
   const timerInfo = useContext(TimerContext);
 
   const [isPaused, setIsPaused] = useState(true);
+  const [isBreak, setBreak] = useState(false);
   const [mode, setMode] = useState("work");
-  const [secondsLeft, setSecondsLeft] = useState(0);
-
-  const secondsLeftRef = useRef(secondsLeft);
-  const isPausedRef = useRef(isPaused);
-  const modeRef = useRef(mode);
-
-  function tick() {
-    secondsLeftRef.current--;
-    setSecondsLeft(secondsLeftRef.current);
-  }
+  const [secondsLeft, setSecondsLeft] = useState(timerInfo.workMinutes * 60);
 
   useEffect(() => {
-    function switchMode() {
-      const nextMode = modeRef.current === "work" ? "break" : "work";
-      const nextSeconds =
-        (nextMode === "work" ? timerInfo.workMinutes : timerInfo.breakMinutes) *
-        60;
+    let interval = null;
 
-      setMode(nextMode);
-      modeRef.current = nextMode;
+    if (!isPaused) {
+      interval = setInterval(() => {
+        if (secondsLeft === 0) {
+          const nextMode = mode === "work" ? "break" : "work";
+          const nextSeconds =
+            nextMode === "work"
+              ? timerInfo.workMinutes * 60 && setBreak(false)
+              : timerInfo.breakMinutes * 60 && setBreak(true);
 
-      setSecondsLeft(nextSeconds);
-      secondsLeftRef.current = nextSeconds;
+          setMode(nextMode);
+          setSecondsLeft(nextSeconds);
+        } else {
+          setSecondsLeft(secondsLeft - 1);
+        }
+      }, 1000);
     }
 
-    function initTimer() {
-      secondsLeftRef.current = timerInfo.workMinutes * 60;
-      setSecondsLeft(secondsLeftRef.current);
-    }
-
-    initTimer();
-
-    const interval = setInterval(() => {
-      if (isPausedRef.current) {
-        return;
-      }
-      if (secondsLeftRef.current === 0) {
-        switchMode();
-      } else {
-        tick();
-      }
-    }, 1000);
     return () => clearInterval(interval);
-  }, [timerInfo]);
+  }, [isPaused, secondsLeft, mode, timerInfo]);
+  const playTimer = () => {
+    setIsPaused(false);
+    // nextMode = "work";
 
+    console.log("i was clicked");
+  };
+  const pauseTimer = () => {
+    setIsPaused(true);
+    // nextMode = "work";
+
+    console.log("i was clicked");
+  };
   const totalSeconds =
     mode === "work" ? timerInfo.workMinutes * 60 : timerInfo.breakMinutes * 60;
   const percentage = Math.round((secondsLeft / totalSeconds) * 100);
@@ -65,31 +56,34 @@ function Timer() {
 
   return (
     <div>
-      <CircularProgressbar
-        value={percentage}
-        text={minutes + ":" + seconds}
-        styles={buildStyles({
-          textColor: "#fff",
-          pathColor: red,
-          trailColor: "grey",
-        })}
-      />
-      <div>
-        {isPaused ? (
-          <Play
-            onClick={() => {
-              setIsPaused(false);
-              isPausedRef.current = false;
-            }}
+      <div className="card">
+        <div className="card-header">
+          <input type="text" className="inputBox1" />
+        </div>
+
+        <div className="card-body">
+          {isBreak ? <h2>Break:</h2> : <h2>Work:</h2>}
+          <br />
+          <CircularProgressbar
+            value={percentage}
+            text={minutes + ":" + seconds}
+            styles={buildStyles({
+              textColor: "blue",
+              pathColor: "darkblue",
+              trailColor: "grey",
+            })}
           />
-        ) : (
-          <Pause
-            onClick={() => {
-              setIsPaused(true);
-              isPausedRef.current = true;
-            }}
-          />
-        )}
+        </div>
+
+        <div className="card-footer">
+          <div>
+            {isPaused ? (
+              <Play onClick={playTimer} className="btn btn-primary" />
+            ) : (
+              <Pause onClick={pauseTimer} className="btn btn-primary" />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
