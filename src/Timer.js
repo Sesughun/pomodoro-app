@@ -7,6 +7,7 @@ import TimerContext from "./TimerContext";
 
 function Timer() {
   const timerInfo = useContext(TimerContext);
+  console.log(timerInfo, "helllo");
 
   const [isPaused, setIsPaused] = useState(true);
   const [isBreak, setBreak] = useState(false);
@@ -50,9 +51,11 @@ function Timer() {
   const totalSeconds =
     mode === "work" ? timerInfo.workMinutes * 60 : timerInfo.breakMinutes * 60;
   const percentage = Math.round((secondsLeft / totalSeconds) * 100);
-  const minutes = Math.floor(secondsLeft / 60);
+  let minutes = Math.floor(secondsLeft / 60);
   let seconds = secondsLeft % 60;
-  if (seconds < 10) seconds = "0" + seconds;
+  if (seconds < 10) {
+    seconds = "0" + seconds;
+  }
 
   return (
     <div>

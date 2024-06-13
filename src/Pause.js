@@ -1,7 +1,9 @@
-function Pause() {
+function Pause({ onClick }) {
   return (
     <div>
-      <button class="pause">Pause</button>
+      <button className="btn btn-primary btn-lg pause" onClick={onClick}>
+        Pause
+      </button>
     </div>
   );
 }

@@ -1,7 +1,9 @@
-function Play() {
+function Play({ onClick }) {
   return (
     <div>
-      <button class="play">Play</button>
+      <button className="btn btn-primary btn-lg play" onClick={onClick}>
+        Play
+      </button>
     </div>
   );
 }
