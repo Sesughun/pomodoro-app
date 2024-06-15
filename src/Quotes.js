@@ -1,58 +1,79 @@
-const Quotes = () => {
-  return (
-    <>
-      <div
-        id="demoxx"
-        class="carousel slide carousel-fade"
-        data-bs-ride="carousel"
-      >
-        <div class="carousel-inner carousel-vertical">
-          <div class="carousel-item active">
-            <div className="mb3">
-              <div className="card floating-card" style={{ width: "18rem" }}>
-                <div className="card-body">
-                  <p className="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <h5 className="card-footer">Whomever</h5>
-                </div>
-              </div>
-            </div>
-          </div>
+import React from "react";
+import { Carousel } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-          <div class="carousel-item">
-            <div className="mb3">
-              <div className="card floating-card" style={{ width: "18rem" }}>
-                <div className="card-body">
-                  <p className="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
+const QuoteCarousel = () => {
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-md-8">{/* Content on the left side */}</div>
+        <div className="col-md-4 d-flex justify-content-center align-items-center">
+          <Carousel
+            interval={3000}
+            controls={false}
+            indicators={false}
+            className="w-100"
+          >
+            <Carousel.Item>
+              <div
+                className="d-flex align-items-center"
+                style={{ height: "150px" }}
+              >
+                <blockquote
+                  className="blockquote text-center"
+                  style={{ color: "blue", fontWeight: "bold" }}
+                >
+                  <p className="mb-0">
+                    "The best way to predict the future is to create it."
                   </p>
-                  <h5 className="card-footer">Whomeve22r</h5>
-                </div>
+                  <footer className="blockquote-footer">
+                    <br />- Peter Drucker
+                  </footer>
+                </blockquote>
               </div>
-            </div>
-          </div>
+            </Carousel.Item>
+            <Carousel.Item>
+              <div
+                className="d-flex align-items-center"
+                style={{ height: "150px" }}
+              >
+                <blockquote
+                  className="blockquote text-center"
+                  style={{ color: "blue", fontWeight: "bold" }}
+                >
+                  <p className="mb-0">
+                    "Life is 10% what happens to us and 90% how we react to it."
+                  </p>
+                  <footer className="blockquote-footer">
+                    <br />- Charles R. Swindoll
+                  </footer>
+                </blockquote>
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+              <div
+                className="d-flex align-items-center"
+                style={{ height: "150px" }}
+              >
+                <blockquote
+                  className="blockquote text-center"
+                  style={{ color: "blue", fontWeight: "bold" }}
+                >
+                  <p className="mb-0">
+                    "Your time is limited, don’t waste it living someone else’s
+                    life."
+                  </p>
+                  <footer className="blockquote-footer">
+                    <br />- Steve Jobs
+                  </footer>
+                </blockquote>
+              </div>
+            </Carousel.Item>
+          </Carousel>
         </div>
-        <button
-          class="carousel-control-prev"
-          type="button"
-          data-bs-target="#demoxx"
-          data-bs-slide="prev"
-        >
-          <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button
-          class="carousel-control-next"
-          type="button"
-          data-bs-target="#demoxx"
-          data-bs-slide="next"
-        >
-          <span class="carousel-control-next-icon"></span>
-        </button>
       </div>
-    </>
+    </div>
   );
 };
-export default Quotes;
+
+export default QuoteCarousel;
