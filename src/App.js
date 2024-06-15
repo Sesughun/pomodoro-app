@@ -3,7 +3,7 @@ import "./App.css";
 import Timer from "./Timer";
 import TimerContext from "./TimerContext";
 import AddTimer from "./AddTimer";
-import Quotes from "./Quotes";
+import QuoteCarousel from "./Quotes";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import FunStuff from "./FunStuff";
@@ -22,12 +22,9 @@ function App() {
 
   return (
     <div className="container-fluid mt-3 content">
-      <h1>
-        <input type="text" className="inputBox" />
-        Pomodoro Timer
-      </h1>
+      <h1>Milan's Pomodoro Timer</h1>
+      <QuoteCarousel />
       <div className="d-flex align-items-center">
-        <Quotes />
         <main>
           <TimerContext.Provider
             value={{
