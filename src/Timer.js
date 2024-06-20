@@ -7,10 +7,8 @@ import TimerContext from "./TimerContext";
 
 function Timer() {
   const timerInfo = useContext(TimerContext);
-  console.log(timerInfo, "helllo");
 
   const [isPaused, setIsPaused] = useState(true);
-  const [isBreak, setBreak] = useState(false);
   const [mode, setMode] = useState("work");
   const [secondsLeft, setSecondsLeft] = useState(timerInfo.workMinutes * 60);
 
@@ -23,8 +21,8 @@ function Timer() {
           const nextMode = mode === "work" ? "break" : "work";
           const nextSeconds =
             nextMode === "work"
-              ? timerInfo.workMinutes * 60 && setBreak(false)
-              : timerInfo.breakMinutes * 60 && setBreak(true);
+              ? timerInfo.workMinutes * 60
+              : timerInfo.breakMinutes * 60;
 
           setMode(nextMode);
           setSecondsLeft(nextSeconds);
@@ -36,18 +34,17 @@ function Timer() {
 
     return () => clearInterval(interval);
   }, [isPaused, secondsLeft, mode, timerInfo]);
+
   const playTimer = () => {
     setIsPaused(false);
     // nextMode = "work";
-
-    console.log("i was clicked");
   };
+
   const pauseTimer = () => {
     setIsPaused(true);
     // nextMode = "work";
-
-    console.log("i was clicked");
   };
+
   const totalSeconds =
     mode === "work" ? timerInfo.workMinutes * 60 : timerInfo.breakMinutes * 60;
   const percentage = Math.round((secondsLeft / totalSeconds) * 100);
@@ -56,16 +53,26 @@ function Timer() {
   if (seconds < 10) {
     seconds = "0" + seconds;
   }
-
+  if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
   return (
     <div>
-      <div className="card">
+      <div className="card" style={{ backgroundColor: "#b1f2ff" }}>
         <div className="card-header">
-          <input type="text" className="inputBox1" />
+          <input
+            type="text"
+            className="inputBox1"
+            style={{
+              backgroundColor: "lightblue",
+              fontWeight: "bold",
+              textSizeAdjust: "60px",
+            }}
+          />
         </div>
 
         <div className="card-body">
-          {isBreak ? <h2>Break:</h2> : <h2>Work:</h2>}
+          {mode === "break" ? <h2>Break:</h2> : <h2>Work:</h2>}
           <br />
           <CircularProgressbar
             value={percentage}
